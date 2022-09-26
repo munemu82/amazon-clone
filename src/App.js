@@ -1,7 +1,7 @@
 import './App.css';
-import Home from './Home';
-import Login from './Login';
-import Checkout from './Checkout';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Checkout from './pages/Checkout';
 import React, { Component }  from 'react';
 import {
   BrowserRouter as Router,

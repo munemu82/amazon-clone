@@ -3,8 +3,11 @@ import './Header.css';
 import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import {useStateValue} from '../contextapi/StateProvider';  //This is where we get the ContextApi value to be used for basket state
 
 function Header() {
+  const [ { basket }] = useStateValue();
+console.log( basket)
   return (
     <nav className="header">
         {/* logo on the left  */ }
@@ -44,7 +47,7 @@ function Header() {
             <Link to="/checkout" className="header__link">
                 <div className="header__optionBasket">
                      <ShoppingBasketIcon />
-                    <span className="header__optionLineTwo header__basketCount">0</span>
+                    <span className="header__optionLineTwo header__basketCount">{ basket !=null ? basket.length: 0}</span>
                  </div>
             </Link>
         </div>
