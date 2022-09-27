@@ -4,6 +4,9 @@ export const initialState = {
     basket: [],
 };
 
+// Selector
+export const getBasketTotal = (basket) => basket !=null ? basket.reduce((amount, item) => item.price + amount, 0): 0;
+
 const reducer = (state, action) => {
     // testing
     console.log(action);
@@ -17,7 +20,26 @@ const reducer = (state, action) => {
             };
         case 'REMOVE_FROM_BASKET':
             // Logic for removing item from basket
-            return { state };
+            // First we cloned the current state/data in the basket
+            let newBasket = [...state.basket];
+
+            // We then check to see if the product to be removed exists in the basket
+            const index = state.basket.findIndex(
+                (basketItem) => basketItem.id === action.id
+            );
+
+            if(index >= 0) {
+                // Item exists in the basket, remove it ...
+                newBasket.splice(index, 1);
+            } else {
+                console.warn(
+                    `Cant remove product (id: ${action.id})`
+                )
+            }
+            return { 
+                ...state,
+                basket: newBasket,
+            };
         default:
             return state;
     }
