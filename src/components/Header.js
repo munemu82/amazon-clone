@@ -4,10 +4,17 @@ import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import {useStateValue} from '../contextapi/StateProvider';  //This is where we get the ContextApi value to be used for basket state
+import { auth } from "../firebase/firebase";
 
 function Header() {
-  const [ { basket }] = useStateValue();
-console.log( basket)
+  const [{ basket, user }, dispatch] = useStateValue();
+  
+  const handleAuthenticaton = () => {
+    if (auth.currentUser) {
+      auth.signOut();
+    }
+  }
+  console.log( user)
   return (
     <nav className="header">
         {/* logo on the left  */ }
@@ -27,9 +34,9 @@ console.log( basket)
         {/* 3 links on the right  */ }
         <div className="header__nav">
             <Link to="/login" className="header__link">
-                <div className="header__option">
-                    <span className="header__optionLineOne">Hello Amos</span>
-                    <span className="header__optionLineTwo">Sign In</span>
+                <div onClick={handleAuthenticaton} className="header__option">
+                    <span className="header__optionLineOne">Hello {!auth.currentUser ? 'Guest' : auth.currentUser.email}</span>
+                    <span className="header__optionLineTwo">{auth.currentUser ? 'Sign Out' : 'Sign In'}</span>
                 </div>
             </Link>
             <Link to="/" className="header__link">
